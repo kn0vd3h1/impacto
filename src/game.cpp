@@ -511,7 +511,7 @@ void Render() {
               // DialoguePage
               pageIt->Mode = static_cast<DialoguePageMode>(
                   ScrWork[SW_MESMODE0 + 10 * pageIt->Id]);
-              pageIt->Render();
+              pageIt->Render(1.0f);
             }
           }
           // System menu capture
