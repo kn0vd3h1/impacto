@@ -566,4 +566,11 @@ constexpr time_t timegm(tm const& t) {
   return 60 * (60 * (24L * daysSinceEpoch + t.tm_hour) + t.tm_min) + t.tm_sec;
 }
 
+// quick converter for all enums
+template <typename E>
+  requires std::is_enum_v<E>
+constexpr auto operator+(E e) noexcept {
+  return to_underlying(e);
+}
+
 }  // namespace Impacto
