@@ -37,12 +37,27 @@ struct PrimitiveData {
   }
 };
 
-BETTER_ENUM(ShaderProgramType, int, AdditiveMaskedSprite, CCMessageBoxSprite,
-            CHLCCMenuBackground, ColorBurnMaskedSprite, ColorDodgeMaskedSprite,
-            ColorMaskedSprite, HardLightMaskedSprite, LinearBurnMaskedSprite,
-            MaskedSprite, MaskedSpriteBinary, MaskedSpriteNoAlpha,
-            OverlayMaskedSprite, ScreenMaskedSprite, SoftLightMaskedSprite,
-            Sprite, SpriteInverted, YUVFrame, GaussianBlur, Mosaic);
+enum class ShaderProgramType : int {
+  AdditiveMaskedSprite,
+  CCMessageBoxSprite,
+  CHLCCMenuBackground,
+  ColorBurnMaskedSprite,
+  ColorDodgeMaskedSprite,
+  ColorMaskedSprite,
+  HardLightMaskedSprite,
+  LinearBurnMaskedSprite,
+  MaskedSprite,
+  MaskedSpriteBinary,
+  MaskedSpriteNoAlpha,
+  OverlayMaskedSprite,
+  ScreenMaskedSprite,
+  SoftLightMaskedSprite,
+  Sprite,
+  SpriteInverted,
+  YUVFrame,
+  GaussianBlur,
+  Mosaic,
+};
 
 enum class RendererBlendMode { Normal, Additive };
 enum class RendererBlurDirection { Horizontal, Vertical };

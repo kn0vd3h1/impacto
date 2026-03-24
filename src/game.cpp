@@ -81,8 +81,8 @@ static void Init() {
   io.IniFilename = NULL;
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-  if (Profile::GameFeatures & GameFeature::DebugMenu &&
-      Profile::GameFeatures & GameFeature::DebugMenuMultiViewport) {
+  if (Profile::GameFeatures & +GameFeature::DebugMenu &&
+      Profile::GameFeatures & +GameFeature::DebugMenuMultiViewport) {
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
   }
@@ -91,22 +91,23 @@ static void Init() {
   InitRenderer();
   InitCursors();
 
-  memset(DrawComponents, DrawComponentType::None, sizeof(DrawComponents));
+  std::fill(std::begin(DrawComponents), std::end(DrawComponents),
+            DrawComponentType::None);
 
   Profile::ConfigSystem::Configure();
 
-  if (Profile::GameFeatures & GameFeature::Audio) {
+  if (Profile::GameFeatures & +GameFeature::Audio) {
     Audio::AudioInit();
   }
 
-  if (Profile::GameFeatures & GameFeature::Video) {
+  if (Profile::GameFeatures & +GameFeature::Video) {
     Video::VideoInit();
   }
 
   ScrWork = {};
   FlagWork = {};
 
-  if (Profile::GameFeatures & GameFeature::Renderer2D) {
+  if (Profile::GameFeatures & +GameFeature::Renderer2D) {
     Profile::LoadSpritesheets();
     Profile::Charset::Load();
     Profile::LoadFonts();
@@ -130,15 +131,15 @@ static void Init() {
 
   SetWindowIcon(Window->SDLWindow);
 
-  if (Profile::GameFeatures & GameFeature::ModelViewer) {
+  if (Profile::GameFeatures & +GameFeature::ModelViewer) {
     ModelViewer::Init();
   }
 
-  if (Profile::GameFeatures & GameFeature::CharacterViewer) {
+  if (Profile::GameFeatures & +GameFeature::CharacterViewer) {
     CharacterViewer::Init();
   }
 
-  if (Profile::GameFeatures & GameFeature::Sc3VirtualMachine) {
+  if (Profile::GameFeatures & +GameFeature::Sc3VirtualMachine) {
     Vm::Init();
 
     Profile::CommonMenu::Configure();
@@ -179,15 +180,15 @@ void InitFromProfile(std::string const& name) {
 }
 
 void Shutdown() {
-  if (Profile::GameFeatures & GameFeature::Audio) {
+  if (Profile::GameFeatures & +GameFeature::Audio) {
     Audio::AudioShutdown();
   }
 
-  if (Profile::GameFeatures & GameFeature::Video) {
+  if (Profile::GameFeatures & +GameFeature::Video) {
     Video::VideoShutdown();
   }
 
-  if (Profile::GameFeatures & GameFeature::Renderer2D) {
+  if (Profile::GameFeatures & +GameFeature::Renderer2D) {
     Renderer->Shutdown();
   }
   WorkQueue::StopWorkQueue();
@@ -219,7 +220,7 @@ void UpdateGameState(float dt) {
     }
   }
   Vm::ChkMesSkip();
-  if (Profile::Vm::GameInstructionSet == +Vm::InstructionSet::CC) {
+  if (Profile::Vm::GameInstructionSet == Vm::InstructionSet::CC) {
     UI::GameSpecific::UpdateCCButtonGuide(dt);
   }
 }
@@ -232,7 +233,7 @@ void UpdateSystem(float dt) {
   }
 
   SDL_Event e;
-  if (Profile::GameFeatures & GameFeature::Input) {
+  if (Profile::GameFeatures & +GameFeature::Input) {
     Input::BeginFrame();
     RequestCursor(CursorType::Default);
   }
@@ -249,19 +250,20 @@ void UpdateSystem(float dt) {
       continue;
 #endif
 
-    if (Profile::GameFeatures & GameFeature::Input) {
+    if (Profile::GameFeatures & +GameFeature::Input) {
       if (Input::HandleEvent(&e)) continue;
     }
 
     WorkQueue::HandleEvent(&e);
   }
-  if (Profile::GameFeatures & GameFeature::Sc3VirtualMachine) {
+  if (Profile::GameFeatures & +GameFeature::Sc3VirtualMachine) {
     Vm::Interface::UpdatePADInput();
     Vm::Interface::UpdatePADHoldInput(UpdateSecondCounter);
     Vm::Interface::UpdateKBHoldInput(UpdateSecondCounter);
     UpdateGameState(UpdateSecondCounter);
 
-    for (DrawComponentType value : DrawComponentType::_values()) {
+    for (DrawComponentType value :
+         magic_enum::enum_values<DrawComponentType>()) {
       for (auto const& menu : UI::Menus[value]) {
         menu->Update(UpdateSecondCounter);
       }
@@ -296,27 +298,27 @@ void Update(float dt) {
   Renderer->ImGuiBeginFrame();
 #endif
 
-  if (Profile::GameFeatures & GameFeature::ModelViewer) {
+  if (Profile::GameFeatures & +GameFeature::ModelViewer) {
     ModelViewer::Update(dt);
   }
 
-  if (Profile::GameFeatures & GameFeature::CharacterViewer) {
+  if (Profile::GameFeatures & +GameFeature::CharacterViewer) {
     CharacterViewer::Update(dt);
   }
 
-  if (Profile::GameFeatures & GameFeature::Audio) {
+  if (Profile::GameFeatures & +GameFeature::Audio) {
     Audio::AudioUpdate(dt);
   }
 
-  if (Profile::GameFeatures & GameFeature::Video) {
+  if (Profile::GameFeatures & +GameFeature::Video) {
     Video::VideoUpdate(dt);
   }
 
-  if (Profile::GameFeatures & GameFeature::Scene3D) {
+  if (Profile::GameFeatures & +GameFeature::Scene3D) {
     Renderer->Scene->Update(dt);
   }
 
-  if (Profile::GameFeatures & GameFeature::Renderer2D) {
+  if (Profile::GameFeatures & +GameFeature::Renderer2D) {
     for (DialoguePage& page : DialoguePages) page.Update(dt);
   }
 }
@@ -325,7 +327,7 @@ static void RenderMain() {
   Background2D::LastRenderedBackground = nullptr;
   UI::GameSpecific::RenderEarlyMain();
   for (uint32_t layer = 0; layer <= Profile::LayerCount; layer++) {
-    if (+Profile::Vm::GameInstructionSet == +Vm::InstructionSet::CC) {
+    if (Profile::Vm::GameInstructionSet == Vm::InstructionSet::CC) {
       const int renderTarget = ScrWork[SW_RENDERTARGET + layer];
       if (0 <= renderTarget && renderTarget <= MaxFramebuffers) {
         Renderer->SetFramebuffer(renderTarget);
@@ -351,8 +353,8 @@ static void RenderMain() {
       Background2D::LastRenderedBackground->RenderBgEff(layer);
     }
 
-    if ((Profile::GameFeatures & GameFeature::Renderer2D) &&
-        !(Profile::GameFeatures & GameFeature::Scene3D)) {
+    if ((Profile::GameFeatures & +GameFeature::Renderer2D) &&
+        !(Profile::GameFeatures & +GameFeature::Scene3D)) {
       for (int chaId = 0; chaId < std::ssize(Characters2D); chaId++) {
         int bufId = ScrWork[SW_CHA1SURF + chaId];
         Characters2D[bufId].UpdateState(chaId);
@@ -410,9 +412,9 @@ static void RenderMain() {
     }
 
     if (Profile::UseMoviePriority &&
-        (Profile::GameFeatures & GameFeature::Video)) {
+        (Profile::GameFeatures & +GameFeature::Video)) {
       int videoAlpha = 0;
-      if (Profile::Vm::GameInstructionSet == +Vm::InstructionSet::CHLCC) {
+      if (Profile::Vm::GameInstructionSet == Vm::InstructionSet::CHLCC) {
         if (ScrWork[SW_MOVIEALPHA] > 0 &&
             ScrWork[SW_MOVIEPRI] == static_cast<int>(layer)) {
           videoAlpha = ScrWork[SW_MOVIEALPHA];
@@ -467,9 +469,9 @@ static void RenderMain() {
 
   // MO8 uses those huge layer indexes for movie menu, it doesn't
   // actually have 4000 layers
-  if ((Profile::GameFeatures & GameFeature::Video) &&
+  if ((Profile::GameFeatures & +GameFeature::Video) &&
       (!Profile::UseMoviePriority ||
-       (Profile::Vm::GameInstructionSet == +Vm::InstructionSet::MO8 &&
+       (Profile::Vm::GameInstructionSet == Vm::InstructionSet::MO8 &&
         (ScrWork[SW_MOVIEPRI] == 3000 || ScrWork[SW_MOVIEPRI] == 4000)))) {
     Video::VideoRender(ScrWork[SW_MOVIEALPHA] / 256.0f);
   }
@@ -480,24 +482,24 @@ void Render() {
 
   Renderer->BeginFrame();
 
-  if (Profile::GameFeatures & GameFeature::Scene3D) {
+  if (Profile::GameFeatures & +GameFeature::Scene3D) {
     Renderer->Scene->Render();
   }
 
   Renderer->BeginFrame2D();
 
 #ifndef IMPACTO_DISABLE_IMGUI
-  if (Profile::GameFeatures & GameFeature::DebugMenu) {
+  if (Profile::GameFeatures & +GameFeature::DebugMenu) {
     DebugMenu::Show();
   }
 #endif
 
-  if (Profile::GameFeatures & GameFeature::Renderer2D) {
+  if (Profile::GameFeatures & +GameFeature::Renderer2D) {
     if (Window->WindowDimensionsChanged) {
       Background2D::InitFrameBuffers();
     }
     for (int i = 0; i < Vm::MaxThreads; i++) {
-      if (DrawComponents[i] == +DrawComponentType::None) break;
+      if (DrawComponents[i] == DrawComponentType::None) break;
 
       switch (DrawComponents[i]) {
         case DrawComponentType::Text: {
@@ -515,7 +517,7 @@ void Render() {
             }
           }
           // System menu capture
-          if (Profile::Vm::GameInstructionSet == +Vm::InstructionSet::CC &&
+          if (Profile::Vm::GameInstructionSet == Vm::InstructionSet::CC &&
               GetFlag(SF_SYSTEMMENUCAPTURE)) {
             Renderer->CaptureScreencap(
                 static_cast<UI::CCLCC::SystemMenu*>(UI::SystemMenuPtr)
@@ -529,7 +531,7 @@ void Render() {
           break;
         }
         case DrawComponentType::Main: {
-          if (Profile::Vm::GameInstructionSet == +Vm::InstructionSet::CC &&
+          if (Profile::Vm::GameInstructionSet == Vm::InstructionSet::CC &&
               !(!GetFlag(SF_SELECTMODE) ||
                 (GetFlag(SF_SYSTEMMENUCAPTURE) &&
                  ScrWork[SW_RESTARTMASK] != 0x100))) {
@@ -551,7 +553,7 @@ void Render() {
           break;
         }
         case DrawComponentType::SystemIcons: {
-          if (Profile::Vm::GameInstructionSet == +Vm::InstructionSet::CC) {
+          if (Profile::Vm::GameInstructionSet == Vm::InstructionSet::CC) {
             UI::GameSpecific::RenderCCButtonGuide();
           }
 
@@ -591,7 +593,7 @@ void Render() {
     }
   }
 
-  if (Profile::GameFeatures & GameFeature::CharacterViewer) {
+  if (Profile::GameFeatures & +GameFeature::CharacterViewer) {
     if (Backgrounds2D[0]->Status == LoadStatus::Loaded) {
       Renderer->DrawSprite(
           Backgrounds2D[0]->BgSprite,

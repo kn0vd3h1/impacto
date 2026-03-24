@@ -9,17 +9,21 @@
 namespace Impacto {
 namespace Profile {
 
-BETTER_ENUM(DateFormatType, uint8_t, DMY, MDY, YMD);
+enum class DateFormatType : uint8_t {
+  DMY,
+  MDY,
+  YMD,
+};
 
 struct DateFormatDef {
   DateFormatDef(DateFormatType sel) : Sel(sel) {}
   std::string_view FormattedString() const {
     switch (Sel) {
-      case +DateFormatType::DMY:
+      case DateFormatType::DMY:
         return "{:%d/%m/%y}";
-      case +DateFormatType::MDY:
+      case DateFormatType::MDY:
         return "{:%m/%d/%y}";
-      case +DateFormatType::YMD:
+      case DateFormatType::YMD:
       default:
         return "{:%y/%m/%d}";
     }
@@ -64,7 +68,7 @@ inline bool Fullscreen;
 // TODO Move to "Patch" logic
 inline char const* Subtitles;
 inline bool CloseBacklogWhenReachedEnd = true;
-inline DateFormatDef DateFormat = +DateFormatType::YMD;
+inline DateFormatDef DateFormat = DateFormatType::YMD;
 inline bool HasTitleMenuExitButton = false;
 
 inline int PlatformId = 0;
