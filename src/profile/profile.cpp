@@ -20,6 +20,7 @@
 #include "../hud/skipicondisplay.h"
 #include "../hud/tipsnotification.h"
 #include "../profile/hud/saveicon.h"
+#include "../inputsystem.h"
 
 namespace Impacto {
 namespace Profile {
@@ -206,6 +207,9 @@ void MakeLuaProfile(std::string const& name) {
   DefineEnum<ConfigSystem::AutoQuickSaveType>(LuaState);
   DefineEnum<UI::GameSpecificType>(LuaState);
   DefineEnum<DateFormatType>(LuaState);
+  DefineEnum<Input::KeyboardScanCode>(LuaState);
+  DefineEnum<Input::ControllerButton>(LuaState);
+  DefineEnum<Input::ControllerAxis>(LuaState);
 
   ImpLog(LogLevel::Info, LogChannel::Profile, "Starting profile {:s}\n", name);
 
