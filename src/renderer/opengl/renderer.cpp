@@ -260,20 +260,28 @@ YUVFrame* Renderer::CreateYUVFrame(float width, float height) {
 
 void Renderer::InsertVertices(
     const std::span<const VertexBufferSprites> vertices,
-    const std::span<const uint16_t> indices) {
+    const std::span<const uint16_t> indices, bool usingRestartIndices) {
   if (vertices.empty() || indices.empty()) return;
   assert(indices.size() <= MaxIndexCount);
 
   if (IndexBuffer.size() + indices.size() > MaxIndexCount) Flush();
 
-  const uint16_t maxIndex = *std::max_element(indices.begin(), indices.end());
-
   VertexBuffer.insert(VertexBuffer.end(), vertices.begin(), vertices.end());
 
-  IndexBuffer.reserve(IndexBuffer.size() + indices.size());
-  std::transform(
-      indices.begin(), indices.end(), std::back_inserter(IndexBuffer),
-      [this](uint16_t index) { return index + this->NextFreeIndex; });
+  const size_t offset = IndexBuffer.size();
+  const size_t indicesCount = indices.size();
+  IndexBuffer.resize(offset + indicesCount);
+
+  constexpr uint16_t RESTART_INDEX = 0xFFFF;
+  uint16_t maxIndex = 0;
+  for (size_t i = 0; i < indicesCount; ++i) {
+    if (usingRestartIndices && indices[i] == RESTART_INDEX) {
+      IndexBuffer[i + offset] = RESTART_INDEX;
+    } else {
+      IndexBuffer[i + offset] = indices[i] + NextFreeIndex;
+      if (indices[i] > maxIndex) maxIndex = indices[i];
+    }
+  }
 
   NextFreeIndex += maxIndex + 1;
 }
@@ -773,17 +781,22 @@ void Renderer::DrawPrimitives(
     });
   }
 
-  std::vector<VertexBufferSprites> transformedVertices;
-  transformedVertices.resize(vertices.size());
+  if (sheet.IsScreenCap) {
+    const auto transformVertex = [](VertexBufferSprites info) {
+      info.UV.y = 1.0f - info.UV.y;
+      return info;
+    };
+    std::transform(vertices.begin(), vertices.end(),
+                   TransformedVertices.begin(), transformVertex);
+  } else {
+    std::copy(vertices.begin(), vertices.end(), TransformedVertices.begin());
+  }
 
-  const auto transformVertex = [sheet](VertexBufferSprites info) {
-    if (sheet.IsScreenCap) info.UV.y = 1.0f - info.UV.y;
-    return info;
-  };
-  std::transform(vertices.begin(), vertices.end(), transformedVertices.begin(),
-                 transformVertex);
+  std::span<VertexBufferSprites> subSpan =
+      std::span(TransformedVertices).subspan(0, vertices.size());
 
-  InsertVertices(transformedVertices, indices);
+  InsertVertices(subSpan, indices,
+                 topologyMode == TopologyMode::TriangleStrips);
 }
 
 void Renderer::DrawCCMessageBox(Sprite const& sprite, Sprite const& mask,

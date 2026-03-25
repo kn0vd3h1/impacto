@@ -162,7 +162,8 @@ class Renderer : public BaseRenderer {
   void Flush() override;
 
   void InsertVertices(std::span<const VertexBufferSprites> vertices,
-                      std::span<const uint16_t> indices);
+                      std::span<const uint16_t> indices,
+                      bool usingRestartIndices = false);
   void InsertVerticesQuad(CornersQuad pos, CornersQuad uv,
                           std::span<const glm::vec4, 4> tints,
                           CornersQuad maskUV = RectF());
@@ -213,6 +214,9 @@ class Renderer : public BaseRenderer {
       1024 * 1024 / sizeof(VertexBufferSprites);
   static constexpr uint16_t MaxIndexCount =
       std::numeric_limits<uint16_t>::max();
+
+  std::vector<VertexBufferSprites> TransformedVertices =
+      std::vector<VertexBufferSprites>(MaxIndexCount);
 
   uint16_t NextFreeIndex = 0;
 
