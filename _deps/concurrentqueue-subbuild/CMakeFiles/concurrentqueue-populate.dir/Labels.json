@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/CMakeFiles/concurrentqueue-populate"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/CMakeFiles/concurrentqueue-populate.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/CMakeFiles/concurrentqueue-populate-complete.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-build.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-configure.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-download.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-install.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-patch.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-test.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/concurrentqueue-subbuild/concurrentqueue-populate-prefix/src/concurrentqueue-populate-stamp/concurrentqueue-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"concurrentqueue-populate"
+		],
+		"name" : "concurrentqueue-populate"
+	}
+}

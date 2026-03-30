@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/CMakeFiles/utf8cpp-populate"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/CMakeFiles/utf8cpp-populate.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/CMakeFiles/utf8cpp-populate-complete.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-build.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-configure.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-download.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-install.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-mkdir.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-patch.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-test.rule"
+		},
+		{
+			"file" : "/home/nils/pwnhunter/attack-artifacts/20260329T212322Z/CommitteeOfZero__impacto/workspace/_deps/utf8cpp-subbuild/utf8cpp-populate-prefix/src/utf8cpp-populate-stamp/utf8cpp-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"utf8cpp-populate"
+		],
+		"name" : "utf8cpp-populate"
+	}
+}
